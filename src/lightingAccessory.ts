@@ -50,9 +50,7 @@ export class LightingAccessory {
     // .setCharacteristic(this.platform.Characteristic.FirmwareRevision, accessory.context.device.FirmwareRevision);
 
     const isDimmable = accessory.context.device.dimmable;
-    const serviceType = isDimmable === true
-      ? this.platform.Service.Lightbulb
-      : this.platform.Service.Switch;
+    const serviceType = this.platform.Service.Lightbulb;
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
     this.service = this.accessory.getService(serviceType) || this.accessory.addService(serviceType);
