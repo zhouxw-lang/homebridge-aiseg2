@@ -7,6 +7,7 @@ export const types: { [id: string]: string} = {
   '0x39': 'electric water heater',
   '0x91': 'smoke detector',
   '0x92': 'switch',
+  '0x2b': 'shutter',
 };
 
 export type switchCharacteristics = {

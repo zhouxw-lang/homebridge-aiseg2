@@ -222,7 +222,7 @@ export class LightingAccessory {
 
       const response = JSON.parse(data);
 
-      const result = (Number.isInteger(response.acceptId))
+      const result = (Number.isInteger(response.acceptId)) // acceptId is string so checkStatus is not called at all...
         ? this.checkStatus(response.acceptId)
         : true;
 
