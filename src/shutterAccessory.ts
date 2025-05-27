@@ -130,13 +130,13 @@ export class ShutterAccessory {
 
       this.platform.log.debug(`Response: '${data}'`);
 
-      if (openValue === 2) {
-        this.platform.log.info(`Homebridge -> ${deviceData.displayName} STOPPED at ${this.currentPosition}%`);
+      if (openValue === 2) { // The command was stop
+        this.platform.log.info(`Homebridge -> ${deviceData.displayName} STOPPED at ${this.targetPosition}%`);
       } else {
         this.platform.log.info(`Homebridge -> ${deviceData.displayName} ${openValue === 0 ? 'OPENING' : 'CLOSING'} to ${newPosition}%`);
-        // Update current position after successful command for open/close
-        this.currentPosition = newPosition;
       }
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, this.targetPosition);
+      this.service.updateCharacteristic(this.platform.Characteristic.PositionState, this.positionState);
     };
 
     this.platform.log.debug(`Sending command '${openValue}' to device '${deviceData.displayName}' with ${url}`);
