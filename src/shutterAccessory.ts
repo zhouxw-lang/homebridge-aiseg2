@@ -90,8 +90,18 @@ export class ShutterAccessory {
     const deviceData = this.accessory.context.device;
     let openValue: number;
 
-    // Determine if we're opening, closing, or stopping
-    if (newPosition > this.currentPosition) {
+    // Check if we're currently moving
+    const isMoving = this.positionState === 0 || this.positionState === 1;
+
+    // If moving and the new target is not 0% or 100%, stop the shutter
+    if (isMoving && newPosition !== 0 && newPosition !== 100) {
+      // User wants to stop the shutter at an intermediate position
+      this.positionState = 2; // Stopped
+      openValue = 2; // Stop command
+      this.targetPosition = this.currentPosition; // Set target to current
+      this.platform.log.debug(`Stopping ${deviceData.displayName} at ${this.currentPosition}% (user set ${newPosition}%)`);
+    } else if (newPosition > this.currentPosition) {
+      // Determine if we're opening, closing, or stopping
       this.positionState = 1; // Opening
       openValue = 0; // Open command
       this.platform.log.debug(`Setting ${deviceData.displayName} to OPEN (target: ${newPosition}%)`);
